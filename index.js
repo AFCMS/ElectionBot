@@ -38,6 +38,7 @@ commands.push(
 
 client.once("ready", async () => {
 	console.log(`Logged in as ${client.user.tag}.`)
+	//TODO: add application commands
 
 	if (process.env["DEBUG_GUILD_ID"]) {
 		const guild = client.guilds.resolve(config.guildid)
