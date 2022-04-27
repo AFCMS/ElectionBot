@@ -1,11 +1,10 @@
-const Discord = require("discord.js")
+const { Client, Intents }= require("discord.js")
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { exit } = require("process")
-const sqlite3 = require("sqlite3").verbose()
 
 const { ElectionDatabase } = require("./api.js")
 
-const config = require("./config.json")
+require("dotenv").config()
 
 //console.log(config)
 
@@ -13,7 +12,7 @@ const config = require("./config.json")
 
 // Error if missing configuration
 if (!config.token) {
-	console.error("Error: Missing configurations! See config.json.example.")
+	console.error("Error: Missing configurations! See .env.example")
 	exit(1)
 }
 
@@ -25,11 +24,11 @@ ElectionDatabase.db.all("SELECT * FROM elections", (err, rows) => {
 	console.log(rows)
 })
 
-const client = new Discord.Client({
+const client = new Client({
 	intents: [
-		Discord.Intents.FLAGS.GUILDS,
-		Discord.Intents.FLAGS.GUILD_MESSAGES,
-		Discord.Intents.FLAGS.GUILD_INTEGRATIONS,
+		Intents.FLAGS.GUILDS,
+		Intents.FLAGS.GUILD_MESSAGES,
+		Intents.FLAGS.GUILD_INTEGRATIONS,
 	],
 })
 
@@ -44,7 +43,7 @@ commands.push(
 client.once("ready", async () => {
 	console.log(`Logged in as ${client.user.tag}.`)
 
-	const guild = client.guilds.resolve(config.guildid)
+	const guild = client.guilds.resolve(process.env.GUILD_ID)
 
 	guild.commands.set(commands).catch(console.log)
 })
@@ -54,4 +53,4 @@ process.on("SIGINT", () => {
 	client.destroy()
 })
 
-client.login(config.token)
+client.login(process.env.TOKEN)

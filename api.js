@@ -1,4 +1,4 @@
-const fs = require("fs")
+const { readFileSync } = require("fs")
 const { exit } = require("process")
 const sqlite3 = require("sqlite3").verbose()
 
@@ -17,7 +17,7 @@ class ElectionDatabase {
 				}
 			}
 		)
-		const schema = fs.readFileSync("./schema/database.sql", "utf8")
+		const schema = readFileSync("./schema/database.sql", "utf8")
 		console.log(schema)
 		this.db.run(schema)
 	}
