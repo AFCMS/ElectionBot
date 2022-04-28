@@ -19,7 +19,7 @@
 	"homepage": "https://github.com/AFCMS/ElectionBot#readme",
 	"dependencies": {
 		"discord.js": "^13.6.0",
-		"sqlite3": "^5.0.5"
+		"sqlite3": "^5.0.6"
 	},
 	"devDependencies": {
 		"@types/sqlite3": "^3.1.8"
