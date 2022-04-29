@@ -4,6 +4,8 @@ import { exit } from "process"
 import mongoose from "mongoose"
 import "dotenv/config"
 
+import "./uptime_server.js"
+
 import Models from "./models.js"
 
 mongoose
