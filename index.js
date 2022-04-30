@@ -39,9 +39,7 @@ const client = new Discord.Client({
 const commands = []
 
 commands.push(
-	new SlashCommandBuilder()
-		.setName("shutupbot")
-		.setDescription("Stupid command")
+	new SlashCommandBuilder().setName("ping").setDescription("Stupid command")
 )
 
 commands.push(
@@ -50,6 +48,19 @@ commands.push(
 		.setDescription("Create an Election")
 		.addStringOption((option) =>
 			option.setName("name").setDescription("Election Name").setRequired(true)
+		)
+		.addChannelOption((option) =>
+			option
+				.setName("channel")
+				.setDescription("Channel where the election will take place")
+				.setRequired(false)
+				.addChannelType(0)
+		)
+		.addRoleOption((option) =>
+			option
+				.setName("given_role")
+				.setDescription("Role that will be given to the winner")
+				.setRequired(false)
 		)
 )
 
@@ -67,8 +78,10 @@ client.once("ready", async () => {
 
 client.on("interactionCreate", async (interaction) => {
 	if (interaction.isCommand()) {
-		if (interaction.commandName === "shutupbot") {
+		if (interaction.commandName === "ping") {
 			await interaction.reply("Pong!")
+		} else if (interaction.commandName === "create") {
+			await interaction.reply("Not implemented yet")
 		}
 	}
 	//console.log(interaction)
