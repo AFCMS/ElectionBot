@@ -55,4 +55,13 @@ client.once("ready", async () => {
 	}
 })
 
+client.on("interactionCreate", (interaction) => {
+	if (interaction.isCommand()) {
+		if (interaction.commandName === "shutupbot") {
+			await interaction.reply("Pong!")
+		}
+	}
+	console.log(interaction)
+})
+
 client.login(process.env["DISCORD_TOKEN"])
