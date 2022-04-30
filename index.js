@@ -44,6 +44,15 @@ commands.push(
 		.setDescription("Stupid command")
 )
 
+commands.push(
+	new SlashCommandBuilder()
+		.setName("create")
+		.setDescription("Create an Election")
+		.addStringOption((option) =>
+			option.setName("name").setDescription("Election Name").setRequired(true)
+		)
+)
+
 client.once("ready", async () => {
 	console.log(`Logged in as ${client.user.tag}.`)
 	//TODO: add application commands
