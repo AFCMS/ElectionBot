@@ -70,7 +70,7 @@ client.on("interactionCreate", async (interaction) => {
 			await interaction.reply("Pong!")
 		}
 	}
-	console.log(interaction)
+	//console.log(interaction)
 })
 
 client.login(process.env["DISCORD_TOKEN"])
