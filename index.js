@@ -62,6 +62,24 @@ commands.push(
 				.setDescription("Role that will be given to the winner")
 				.setRequired(false)
 		)
+		.addUserOption((option) =>
+			option
+				.setName("candidate_1")
+				.setDescription("First candidate")
+				.setRequired(true)
+		)
+		.addUserOption((option) =>
+			option
+				.setName("candidate_2")
+				.setDescription("Second candidate")
+				.setRequired(true)
+		)
+		.addUserOption((option) =>
+			option
+				.setName("candidate_1")
+				.setDescription("First candidate")
+				.setRequired(true)
+		)
 )
 
 client.once("ready", async () => {
