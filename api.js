@@ -20,7 +20,7 @@ class APIDatabase {
 			candidate_1: candidate_1,
 			candidate_2: candidate_2,
 		})
-		await e.save().then(console.log).catch(console.log)
+		e.save().then(console.log).catch(console.log)
 	}
 	hasUserVoted(user_id, election_id) {
 		Models.ElectionParticipantsModel.find({
