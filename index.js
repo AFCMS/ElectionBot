@@ -79,12 +79,12 @@ commands.push(
 client.once("ready", async () => {
 	console.log(`Logged in as ${client.user.tag}.`)
 
-	client.application.commands.set(commands)
-
 	if (process.env["DEBUG_GUILD_ID"]) {
 		const guild = client.guilds.resolve(process.env["DEBUG_GUILD_ID"])
 
 		guild.commands.set(commands).catch(console.log)
+	} else {
+		client.application.commands.set(commands)
 	}
 })
 
