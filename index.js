@@ -7,6 +7,7 @@ import "dotenv/config"
 import "./uptime_server.js"
 
 import Models from "./models.js"
+import APIDatabase from "./api.js"
 
 mongoose
 	.connect(process.env["MONGODB_URL"])
@@ -93,6 +94,13 @@ client.on("interactionCreate", async (interaction) => {
 		if (interaction.commandName === "ping") {
 			await interaction.reply("Pong!")
 		} else if (interaction.commandName === "create") {
+			APIDatabase.createElection(
+				interaction.guildId,
+				interaction.user.id,
+				"Test",
+				"Macron",
+				"Marine"
+			)
 			await interaction.reply("Not implemented yet")
 		}
 	}

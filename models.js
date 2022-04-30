@@ -2,10 +2,11 @@ import mongoose from "mongoose"
 
 const ElectionModel = new mongoose.Schema({
 	guild_id: { type: Number, required: true },
-	name: { type: String, trim: true },
+	user: { type: Number, required: true },
+	name: { type: String, trim: true, required: true },
 	end_time: { type: Number, default: -1, required: true },
-	candidate_1: { type: String },
-	candidate_2: { type: String },
+	candidate_1: { type: String, required: true },
+	candidate_2: { type: String, required: true },
 	candidate_3: { type: String },
 	candidate_4: { type: String },
 	candidate_5: { type: String },
