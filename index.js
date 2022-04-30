@@ -61,12 +61,6 @@ commands.push(
 				.setDescription("Second candidate")
 				.setRequired(true)
 		)
-		.addUserOption((option) =>
-			option
-				.setName("candidate_1")
-				.setDescription("First candidate")
-				.setRequired(true)
-		)
 		.addRoleOption((option) =>
 			option
 				.setName("given_role")
