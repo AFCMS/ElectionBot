@@ -49,19 +49,6 @@ commands.push(
 		.addStringOption((option) =>
 			option.setName("name").setDescription("Election Name").setRequired(true)
 		)
-		.addChannelOption((option) =>
-			option
-				.setName("channel")
-				.setDescription("Channel where the election will take place")
-				.setRequired(false)
-				.addChannelTypes(Discord.Constants.ChannelTypes.GUILD_TEXT)
-		)
-		.addRoleOption((option) =>
-			option
-				.setName("given_role")
-				.setDescription("Role that will be given to the winner")
-				.setRequired(false)
-		)
 		.addUserOption((option) =>
 			option
 				.setName("candidate_1")
@@ -79,6 +66,19 @@ commands.push(
 				.setName("candidate_1")
 				.setDescription("First candidate")
 				.setRequired(true)
+		)
+		.addRoleOption((option) =>
+			option
+				.setName("given_role")
+				.setDescription("Role that will be given to the winner")
+				.setRequired(false)
+		)
+		.addChannelOption((option) =>
+			option
+				.setName("channel")
+				.setDescription("Channel where the election will take place")
+				.setRequired(false)
+				.addChannelTypes(Discord.Constants.ChannelTypes.GUILD_TEXT)
 		)
 )
 
