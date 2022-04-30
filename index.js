@@ -54,7 +54,7 @@ commands.push(
 				.setName("channel")
 				.setDescription("Channel where the election will take place")
 				.setRequired(false)
-				.addChannelType(0)
+				.addChannelTypes([0])
 		)
 		.addRoleOption((option) =>
 			option
