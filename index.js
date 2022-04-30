@@ -55,7 +55,7 @@ client.once("ready", async () => {
 	}
 })
 
-client.on("interactionCreate", (interaction) => {
+client.on("interactionCreate", async (interaction) => {
 	if (interaction.isCommand()) {
 		if (interaction.commandName === "shutupbot") {
 			await interaction.reply("Pong!")
