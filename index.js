@@ -1,29 +1,32 @@
-const Discord = require("discord.js")
-const { SlashCommandBuilder } = require("@discordjs/builders")
-const { exit } = require("process")
-const sqlite3 = require("sqlite3").verbose()
+import Discord from "discord.js"
+import { SlashCommandBuilder } from "@discordjs/builders"
+import { exit } from "process"
+import mongoose from "mongoose"
+import "dotenv/config"
 
-const { ElectionDatabase } = require("./api.js")
+import "./uptime_server.js"
 
-const config = require("./config.json")
+import Models from "./models.js"
+
+mongoose
+	.connect(process.env["MONGODB_URL"])
+	.then(console.log("Connected to MongoDB"))
+	.catch((err) => console.error("Connection to MongoDB failed! Error: " + err))
+
+mongoose.model("elections", Models.ElectionModel)
+mongoose.model("elections_participants", Models.ElectionParticipantsModel)
+
+//const { ElectionDatabase } = require("./api.js")
 
 //console.log(config)
 
 //console.log(config.guildid)
 
 // Error if missing configuration
-if (!config.token) {
+if (!process.env["DISCORD_TOKEN"]) {
 	console.error("Error: Missing configurations! See config.json.example.")
 	exit(1)
 }
-
-console.log(
-	ElectionDatabase.create_election("fdf", "Pre", ["Valérie"], 1243, 10, 0)
-)
-
-ElectionDatabase.db.all("SELECT * FROM elections", (err, rows) => {
-	console.log(rows)
-})
 
 const client = new Discord.Client({
 	intents: [
@@ -43,15 +46,13 @@ commands.push(
 
 client.once("ready", async () => {
 	console.log(`Logged in as ${client.user.tag}.`)
+	//TODO: add application commands
 
-	const guild = client.guilds.resolve(config.guildid)
+	if (process.env["DEBUG_GUILD_ID"]) {
+		const guild = client.guilds.resolve(config.guildid)
 
-	guild.commands.set(commands).catch(console.log)
+		guild.commands.set(commands).catch(console.log)
+	}
 })
 
-process.on("SIGINT", () => {
-	ElectionDatabase.db.close()
-	client.destroy()
-})
-
-client.login(config.token)
+client.login(process.env["DISCORD_TOKEN"])
