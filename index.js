@@ -54,7 +54,7 @@ commands.push(
 				.setName("channel")
 				.setDescription("Channel where the election will take place")
 				.setRequired(false)
-				.addChannelTypes([Discord.Constants.ChannelTypes.GUILD_TEXT])
+				.addChannelTypes(Discord.Constants.ChannelTypes.GUILD_TEXT)
 		)
 		.addRoleOption((option) =>
 			option
