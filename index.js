@@ -13,8 +13,8 @@ mongoose
 	.then(console.log("Connected to MongoDB"))
 	.catch((err) => console.error("Connection to MongoDB failed! Error: " + err))
 
-mongoose.model("elections", Models.ElectionModel)
-mongoose.model("elections_participants", Models.ElectionParticipantsModel)
+//mongoose.model("elections", Models.ElectionModel)
+//mongoose.model("elections_participants", Models.ElectionParticipantsModel)
 
 //const { ElectionDatabase } = require("./api.js")
 

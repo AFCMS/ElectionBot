@@ -3,7 +3,12 @@ import mongoose from "mongoose"
 const ElectionModel = new mongoose.Schema({
 	guild_id: { type: Number, required: true },
 	name: { type: String, trim: true },
-	end_time: { type: Number, required: true },
+	end_time: { type: Number, default: -1, required: true },
+	candidate_1: { type: String },
+	candidate_2: { type: String },
+	candidate_3: { type: String },
+	candidate_4: { type: String },
+	candidate_5: { type: String },
 	message_id: { type: Number },
 })
 
@@ -18,8 +23,11 @@ const ElectionParticipantsModel = new mongoose.Schema({
 })
 
 const e = {
-	ElectionModel,
-	ElectionParticipantsModel,
+	ElectionModel: mongoose.model("elections", ElectionModel),
+	ElectionParticipantsModel: mongoose.model(
+		"elections_participants",
+		ElectionParticipantsModel
+	),
 }
 
 //module.exports = e
