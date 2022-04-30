@@ -59,7 +59,7 @@ client.once("ready", async () => {
 	client.application.commands.set(commands)
 
 	if (process.env["DEBUG_GUILD_ID"]) {
-		const guild = client.guilds.resolve(config.guildid)
+		const guild = client.guilds.resolve(process.env["DEBUG_GUILD_ID"])
 
 		guild.commands.set(commands).catch(console.log)
 	}
