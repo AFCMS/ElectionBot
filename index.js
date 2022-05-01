@@ -77,6 +77,10 @@ commands.push(
 		)
 )
 
+commands.push(
+	new SlashCommandBuilder().setName("list").setDescription("List Election")
+)
+
 client.once("ready", async () => {
 	console.log(`Logged in as ${client.user.tag}.`)
 
@@ -102,6 +106,9 @@ client.on("interactionCreate", async (interaction) => {
 				"Marine"
 			)
 			await interaction.reply("Not implemented yet")
+		} else if (interaction.commandName === "list") {
+			var r = Models.ElectionModel.find().byGuild(interaction.guildId)
+			await interaction.reply(JSON.stringify(r))
 		}
 	}
 	//console.log(interaction)

@@ -1,6 +1,8 @@
 import mongoose from "mongoose"
 
-const ElectionModel = new mongoose.Schema({
+// Schema Definition
+
+const ElectionSchema = new mongoose.Schema({
 	guild_id: { type: Number, required: true },
 	user: { type: Number, required: true },
 	name: { type: String, trim: true, required: true },
@@ -13,7 +15,7 @@ const ElectionModel = new mongoose.Schema({
 	message_id: { type: Number },
 })
 
-const ElectionParticipantsModel = new mongoose.Schema({
+const ElectionParticipantsSchema = new mongoose.Schema({
 	user: { type: String, required: true },
 	election_id: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -23,13 +25,29 @@ const ElectionParticipantsModel = new mongoose.Schema({
 	candidate_id: { type: Number, required: true },
 })
 
-const e = {
-	ElectionModel: mongoose.model("elections", ElectionModel),
-	ElectionParticipantsModel: mongoose.model(
-		"elections_participants",
-		ElectionParticipantsModel
-	),
+ElectionSchema.methods.findParticipants = function () {
+	return mongoose.model("elections_participants").find({ id: this._id })
 }
 
-//module.exports = e
-export default e
+ElectionSchema.statics.findParticipants = function (election_id) {
+	return mongoose.model("elections_participants").find({ id: election_id })
+}
+
+ElectionSchema.query.byGuild = function (guild_id) {
+	return this.where({ guild_id: guild_id })
+}
+
+// Models Creation
+
+const ElectionModel = mongoose.model("elections", ElectionSchema)
+const ElectionParticipantsModel = mongoose.model(
+	"elections_participants",
+	ElectionParticipantsSchema
+)
+
+// Export Models
+
+export default {
+	ElectionModel,
+	ElectionParticipantsModel,
+}
