@@ -107,10 +107,11 @@ client.on("interactionCreate", async (interaction) => {
 			)
 			await interaction.reply("Not implemented yet")
 		} else if (interaction.commandName === "list") {
-			var r = Models.ElectionModel.find().byGuild(interaction.guildId)
-			console.log(r)
-			console.log(r.toString())
-			await interaction.reply(JSON.stringify(r))
+			Models.ElectionModel.find().byGuild(interaction.guildId).then(elections => {
+				await interaction.reply(JSON.stringify(elections))
+			}).catch(err=> {
+				await interaction.reply("Not working")
+			})	
 		}
 	}
 	//console.log(interaction)
