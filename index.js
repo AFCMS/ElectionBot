@@ -78,7 +78,7 @@ commands.push(
 )
 
 commands.push(
-	new SlashCommandBuilder().setName("list").setDescription("List Election")
+	new SlashCommandBuilder().setName("list").setDescription("List Elections")
 )
 
 client.once("ready", async () => {
@@ -98,13 +98,25 @@ client.on("interactionCreate", async (interaction) => {
 		if (interaction.commandName === "ping") {
 			await interaction.reply("Pong!")
 		} else if (interaction.commandName === "create") {
-			APIDatabase.createElection(
+			/*APIDatabase.createElection(
 				interaction.guildId,
 				interaction.user.id,
 				"Test",
 				"Macron",
 				"Marine"
-			)
+			)*/
+			const election_name = interaction.options.getString("name")
+			const candidate_1 = interaction.options.getUser("candidate_1")
+			const candidate_2 = interaction.options.getUser("candidate_2")
+
+			const e = Models.ElectionModel({
+				guild_id: interaction.guildId,
+				user: interaction.user.id,
+				name: election_name,
+				candidate_1: candidate_1.id,
+				candidate_2: candidate_2.id,
+			})
+			e.save().then(console.log).catch(console.log)
 			await interaction.reply("Not implemented yet")
 		} else if (interaction.commandName === "list") {
 			Models.ElectionModel.find()

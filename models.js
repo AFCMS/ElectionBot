@@ -25,6 +25,8 @@ const ElectionParticipantsSchema = new mongoose.Schema({
 	candidate_id: { type: Number, required: true },
 })
 
+// Methods
+
 ElectionSchema.methods.findParticipants = function () {
 	return mongoose.model("elections_participants").find({ id: this._id })
 }
