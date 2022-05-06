@@ -84,7 +84,7 @@ client.on("interactionCreate", async (interaction) => {
 			})
 
 			e.save()
-				.then((out) => {
+				.then(async (out) => {
 					console.log(out)
 					const e = await buildElectionEmbeed(out)
 					interaction.reply(e)
@@ -132,7 +132,9 @@ async function buildElectionEmbeed(doc) {
 	const canvas_out = Canvas.createCanvas(512, 512, "svg")
 	const ctx = canvas_out.getContext("2d")
 
-	const loaded_img = await Canvas.loadImage("https://afcms.github.io/static/media/logo.e8b16e13b06a37ebeecc.png")
+	const loaded_img = await Canvas.loadImage(
+		"https://afcms.github.io/static/media/logo.e8b16e13b06a37ebeecc.png"
+	)
 	ctx.drawImage(loaded_img, 0, 0)
 	ctx.save()
 
