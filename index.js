@@ -81,6 +81,24 @@ commands.push(
 	new SlashCommandBuilder()
 		.setName("delete")
 		.setDescription("Delete an Election")
+		.addStringOption((option) =>
+			option
+				.setName("id")
+				.setDescription("Id of the Election")
+				.setRequired(true)
+		)
+)
+
+commands.push(
+	new SlashCommandBuilder()
+		.setName("close")
+		.setDescription("Force close an Election")
+		.addStringOption((option) =>
+			option
+				.setName("id")
+				.setDescription("Id of the Election")
+				.setRequired(true)
+		)
 )
 
 commands.push(
@@ -151,11 +169,26 @@ client.on("interactionCreate", async (interaction) => {
 			e.save()
 				.then((out) => {
 					console.log(out)
-					interaction.reply("Done: " + out._id)
+					const e = Discord.MessageEmbed()
+					interaction.reply({ content: "Done: " + out._id, ephemeral: true })
 				})
 				.catch((err) => {
 					interaction.reply("Oops, there was an error: " + err)
 				})
+		} else if (interaction.commandName === "delete") {
+			const election_id = interaction.options.getString("id")
+
+			Models.ElectionModel.findByIdAndRemove(election_id, function (err, docs) {
+				if (err) {
+					console.log(err)
+					interaction.reply({ content: "Error" })
+				} else {
+					console.log("Removed Election : ", docs)
+				}
+			})
+
+			//Models.ElectionParticipantsModel
+			//Models.ElectionParticipantsModel.findByElectionAndRemove(election_id, function (err, docs) {})
 		} else if (interaction.commandName === "list") {
 			Models.ElectionModel.find()
 				.byGuild(interaction.guildId)
