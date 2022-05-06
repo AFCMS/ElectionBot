@@ -184,6 +184,7 @@ client.on("interactionCreate", async (interaction) => {
 					interaction.reply({ content: "Error" })
 				} else {
 					console.log("Removed Election : ", docs)
+					interaction.reply({ content: "Election Removed!" })
 				}
 			})
 
