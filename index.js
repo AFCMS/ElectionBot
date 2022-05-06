@@ -132,4 +132,4 @@ client.on("interactionCreate", async (interaction) => {
 	//console.log(interaction)
 })
 
-client.login(process.env["DISCORD_TOKEN"]).catch(console.log)
+client.login(process.env["DISCORD_TOKEN"])
