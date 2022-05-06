@@ -78,7 +78,9 @@ commands.push(
 )
 
 commands.push(
-	new SlashCommandBuilder().setName("delete").setDescription("Delete an Election")
+	new SlashCommandBuilder()
+		.setName("delete")
+		.setDescription("Delete an Election")
 )
 
 commands.push(
@@ -125,13 +127,16 @@ client.on("interactionCreate", async (interaction) => {
 
 			// Check if database
 
-			Models.ElectionModel.find({
-				name: election_name,
-				guild_id: interaction.guildId,
-			}, (err, dogs)=>{
-				console.log(err)
-				console.log(dogs)
-			})
+			Models.ElectionModel.find(
+				{
+					name: election_name,
+					guild_id: interaction.guildId,
+				},
+				(err, dogs) => {
+					console.log(err)
+					console.log(dogs)
+				}
+			)
 
 			// Create database entry
 
@@ -146,10 +151,10 @@ client.on("interactionCreate", async (interaction) => {
 			e.save()
 				.then((out) => {
 					console.log(out)
-					await interaction.reply("Done: " + out._id)
+					interaction.reply("Done: " + out._id)
 				})
-				.catch((err)=>{
-					await interaction.reply("Oops, there was an error: " + err)
+				.catch((err) => {
+					interaction.reply("Oops, there was an error: " + err)
 				})
 		} else if (interaction.commandName === "list") {
 			Models.ElectionModel.find()
