@@ -146,7 +146,7 @@ async function buildElectionEmbeed(doc) {
 	const e = new Discord.MessageEmbed()
 		//.attachFiles(attachement)
 		.setTitle(doc.name)
-		.setThumbnail("attachment://election.png")
+		.setImage("attachment://election.png")
 
 	return {
 		embeds: [e],
