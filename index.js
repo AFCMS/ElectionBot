@@ -7,21 +7,11 @@ import "dotenv/config"
 import "./uptime_server.js"
 
 import Models from "./models.js"
-import APIDatabase from "./api.js"
 
 mongoose
 	.connect(process.env["MONGODB_URL"])
 	.then(console.log("Connected to MongoDB"))
 	.catch((err) => console.error("Connection to MongoDB failed! Error: " + err))
-
-//mongoose.model("elections", Models.ElectionModel)
-//mongoose.model("elections_participants", Models.ElectionParticipantsModel)
-
-//const { ElectionDatabase } = require("./api.js")
-
-//console.log(config)
-
-//console.log(config.guildid)
 
 // Error if missing configuration
 if (!process.env["DISCORD_TOKEN"]) {
@@ -181,10 +171,10 @@ client.on("interactionCreate", async (interaction) => {
 			Models.ElectionModel.findByIdAndRemove(election_id, function (err, docs) {
 				if (err) {
 					console.log(err)
-					interaction.reply({ content: "Error" })
+					interaction.reply({ content: "Error", ephemeral: true })
 				} else {
 					console.log("Removed Election : ", docs)
-					interaction.reply({ content: "Election Removed!" })
+					interaction.reply({ content: "Election Removed!", ephemeral: true })
 				}
 			})
 
@@ -203,5 +193,9 @@ client.on("interactionCreate", async (interaction) => {
 	}
 	//console.log(interaction)
 })
+
+function buildElectionEmbeed(doc) {
+	const e = Discord.MessageEmbed().setTitle(doc.name)
+}
 
 client.login(process.env["DISCORD_TOKEN"])
