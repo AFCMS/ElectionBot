@@ -1,5 +1,4 @@
 import Discord from "discord.js"
-import { SlashCommandBuilder } from "@discordjs/builders"
 import { exit } from "process"
 import mongoose from "mongoose"
 import "dotenv/config"
@@ -7,6 +6,7 @@ import "dotenv/config"
 import "./uptime_server.js"
 
 import Models from "./models.js"
+import commands from "./commands.js"
 
 mongoose
 	.connect(process.env["MONGODB_URL"])
@@ -27,74 +27,6 @@ const client = new Discord.Client({
 	],
 })
 
-const commands = []
-
-commands.push(
-	new SlashCommandBuilder().setName("ping").setDescription("Stupid command")
-)
-
-commands.push(
-	new SlashCommandBuilder()
-		.setName("create")
-		.setDescription("Create an Election")
-		.addStringOption((option) =>
-			option.setName("name").setDescription("Election Name").setRequired(true)
-		)
-		.addUserOption((option) =>
-			option
-				.setName("candidate_1")
-				.setDescription("First candidate")
-				.setRequired(true)
-		)
-		.addUserOption((option) =>
-			option
-				.setName("candidate_2")
-				.setDescription("Second candidate")
-				.setRequired(true)
-		)
-		.addRoleOption((option) =>
-			option
-				.setName("given_role")
-				.setDescription("Role that will be given to the winner")
-				.setRequired(false)
-		)
-		.addChannelOption((option) =>
-			option
-				.setName("channel")
-				.setDescription("Channel where the election will take place")
-				.setRequired(false)
-				.addChannelTypes(Discord.Constants.ChannelTypes.GUILD_TEXT)
-		)
-)
-
-commands.push(
-	new SlashCommandBuilder()
-		.setName("delete")
-		.setDescription("Delete an Election")
-		.addStringOption((option) =>
-			option
-				.setName("id")
-				.setDescription("Id of the Election")
-				.setRequired(true)
-		)
-)
-
-commands.push(
-	new SlashCommandBuilder()
-		.setName("close")
-		.setDescription("Force close an Election")
-		.addStringOption((option) =>
-			option
-				.setName("id")
-				.setDescription("Id of the Election")
-				.setRequired(true)
-		)
-)
-
-commands.push(
-	new SlashCommandBuilder().setName("list").setDescription("List Elections")
-)
-
 client.once("ready", async () => {
 	console.log(`Logged in as ${client.user.tag}.`)
 
@@ -112,14 +44,6 @@ client.on("interactionCreate", async (interaction) => {
 		if (interaction.commandName === "ping") {
 			await interaction.reply("Pong!")
 		} else if (interaction.commandName === "create") {
-			/*APIDatabase.createElection(
-				interaction.guildId,
-				interaction.user.id,
-				"Test",
-				"Macron",
-				"Marine"
-			)*/
-
 			// Retreive options
 			const election_name = interaction.options.getString("name")
 			const candidate_1 = interaction.options.getUser("candidate_1")
