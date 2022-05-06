@@ -1,3 +1,4 @@
+import Discord from "discord.js"
 import { SlashCommandBuilder } from "@discordjs/builders"
 
 const commands = []
