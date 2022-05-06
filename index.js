@@ -86,8 +86,8 @@ client.on("interactionCreate", async (interaction) => {
 			e.save()
 				.then((out) => {
 					console.log(out)
-					const e = buildElectionEmbeed(out)
-					interaction.reply()
+					const e = await buildElectionEmbeed(out)
+					interaction.reply(e)
 				})
 				.catch((err) => {
 					interaction.reply("Oops, there was an error: " + err)
@@ -122,16 +122,17 @@ client.on("interactionCreate", async (interaction) => {
 })
 
 async function buildElectionEmbeed(doc) {
+	console.log(doc)
 	const resolvedGuild = client.guilds.resolve(doc.guild_id)
 
-	const memberCandidate1 = resolvedGuild.members.resolve(doc.candidate_1)
+	//const memberCandidate1 = resolvedGuild.members.resolve(doc.candidate_1)
 
-	const img = memberCandidate1.avatarURL({ format: "png" })
+	//const img = memberCandidate1.avatarURL({ format: "png" })
 
 	const canvas_out = Canvas.createCanvas(512, 512, "svg")
 	const ctx = canvas_out.getContext("2d")
 
-	const loaded_img = await Canvas.loadImage(img)
+	const loaded_img = await Canvas.loadImage("https://afcms.github.io/static/media/logo.e8b16e13b06a37ebeecc.png")
 	ctx.drawImage(loaded_img, 0, 0)
 	ctx.save()
 
