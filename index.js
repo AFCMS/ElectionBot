@@ -1,4 +1,5 @@
 import Discord from "discord.js"
+import Canvas from "canvas"
 import { exit } from "process"
 import mongoose from "mongoose"
 import "dotenv/config"
@@ -30,8 +31,10 @@ const client = new Discord.Client({
 client.once("ready", async () => {
 	console.log(`Logged in as ${client.user.tag}.`)
 
+	// Update commands definition everywhere
 	client.application.commands.set(commands)
 
+	// Update commands of specific guild for faster debug
 	if (process.env["DEBUG_GUILD_ID"]) {
 		const guild = client.guilds.resolve(process.env["DEBUG_GUILD_ID"])
 
@@ -83,8 +86,8 @@ client.on("interactionCreate", async (interaction) => {
 			e.save()
 				.then((out) => {
 					console.log(out)
-					const e = Discord.MessageEmbed()
-					interaction.reply({ content: "Done: " + out._id, ephemeral: true })
+					const e = buildElectionEmbeed(out)
+					interaction.reply()
 				})
 				.catch((err) => {
 					interaction.reply("Oops, there was an error: " + err)
@@ -118,8 +121,34 @@ client.on("interactionCreate", async (interaction) => {
 	//console.log(interaction)
 })
 
-function buildElectionEmbeed(doc) {
-	const e = Discord.MessageEmbed().setTitle(doc.name)
+async function buildElectionEmbeed(doc) {
+	const resolvedGuild = client.guilds.resolve(doc.guild_id)
+
+	const memberCandidate1 = resolvedGuild.members.resolve(doc.candidate_1)
+
+	const img = memberCandidate1.avatarURL({ format: "png" })
+
+	const canvas_out = Canvas.createCanvas(512, 512, "svg")
+	const ctx = canvas_out.getContext("2d")
+
+	const loaded_img = await Canvas.loadImage(img)
+	ctx.drawImage(loaded_img, 0, 0)
+	ctx.save()
+
+	const attachement = new Discord.MessageAttachment(
+		canvas_out.toBuffer(),
+		"election.png"
+	)
+
+	const e = new Discord.MessageEmbed()
+		//.attachFiles(attachement)
+		.setTitle(doc.name)
+		.setThumbnail("attachment://election.png")
+
+	return {
+		embeds: [e],
+		files: [attachement],
+	}
 }
 
 client.login(process.env["DISCORD_TOKEN"])
