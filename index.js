@@ -78,18 +78,22 @@ commands.push(
 )
 
 commands.push(
+	new SlashCommandBuilder().setName("delete").setDescription("Delete an Election")
+)
+
+commands.push(
 	new SlashCommandBuilder().setName("list").setDescription("List Elections")
 )
 
 client.once("ready", async () => {
 	console.log(`Logged in as ${client.user.tag}.`)
 
+	client.application.commands.set(commands)
+
 	if (process.env["DEBUG_GUILD_ID"]) {
 		const guild = client.guilds.resolve(process.env["DEBUG_GUILD_ID"])
 
 		guild.commands.set(commands).catch(console.log)
-	} else {
-		client.application.commands.set(commands)
 	}
 })
 
@@ -105,9 +109,31 @@ client.on("interactionCreate", async (interaction) => {
 				"Macron",
 				"Marine"
 			)*/
+
+			// Retreive options
 			const election_name = interaction.options.getString("name")
 			const candidate_1 = interaction.options.getUser("candidate_1")
 			const candidate_2 = interaction.options.getUser("candidate_2")
+
+			let channel = interaction.options.getChannel("channel")
+
+			if (!channel) {
+				channel = interaction.channel
+			}
+
+			console.log(channel)
+
+			// Check if database
+
+			Models.ElectionModel.find({
+				name: election_name,
+				guild_id: interaction.guildId,
+			}, (err, dogs)=>{
+				console.log(err)
+				console.log(dogs)
+			})
+
+			// Create database entry
 
 			const e = Models.ElectionModel({
 				guild_id: interaction.guildId,
@@ -116,8 +142,15 @@ client.on("interactionCreate", async (interaction) => {
 				candidate_1: candidate_1.id,
 				candidate_2: candidate_2.id,
 			})
-			e.save().then(console.log).catch(console.log)
-			await interaction.reply("Not implemented yet")
+
+			e.save()
+				.then((out) => {
+					console.log(out)
+					await interaction.reply("Done: " + out._id)
+				})
+				.catch((err)=>{
+					await interaction.reply("Oops, there was an error: " + err)
+				})
 		} else if (interaction.commandName === "list") {
 			Models.ElectionModel.find()
 				.byGuild(interaction.guildId)
