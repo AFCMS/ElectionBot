@@ -22,7 +22,7 @@
 	},
 	"homepage": "https://github.com/AFCMS/ElectionBot#readme",
 	"dependencies": {
-		"@discordjs/builders": "^1.0.0",
+		"@discordjs/builders": "^1.1.0",
 		"canvas": "^2.9.3",
 		"discord.js": "^14.2.0",
 		"dotenv": "^16.0.1",
