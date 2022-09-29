@@ -33,6 +33,6 @@
 		"@typescript-eslint/parser": "^5.38.1",
 		"eslint": "^8.24.0",
 		"eslint-plugin-jsonc": "^2.4.0",
-		"node": "^18.9.1"
+		"node": "^18.10.0"
 	}
 }
