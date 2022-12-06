@@ -26,7 +26,7 @@
 		"canvas": "^2.10.2",
 		"discord.js": "^14.7.1",
 		"dotenv": "^16.0.3",
-		"mongoose": "^6.7.5"
+		"mongoose": "^6.8.0"
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
